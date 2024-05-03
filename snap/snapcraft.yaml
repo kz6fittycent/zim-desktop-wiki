@@ -1,0 +1,53 @@
+name: zim
+summary: Zim - A Desktop Wiki Editor
+description: |
+  Zim is a graphical text editor used to maintain a collection of wiki pages. Each page can contain links to other pages, simple formatting, and images. Pages are stored in a folder structure, like in an outliner, and can have attachments. Creating a new page is as easy as linking to a nonexistent page. All data is stored in plain text files with wiki formatting. Various plugins provide additional functionality, like a task list manager, an equation editor, a tray icon, and support for version control.
+  
+website: https://github.com/zim-desktop-wiki/zim-desktop-wiki
+contact: https://github.com/zim-desktop-wiki/zim-desktop-wiki/issues
+issues: https://github.com/zim-desktop-wiki/zim-desktop-wiki/issues
+source-code: https://github.com/zim-desktop-wiki/zim-desktop-wiki
+license: GPL-2.0
+adopt-info: zim
+
+base: core22
+grade: stable
+confinement: strict
+
+apps:
+  zim:
+    environment:
+      LC_ALL: "C.UTF-8"
+    command: bin/zim
+    extensions:
+      - gnome    
+    plugs:
+      - network
+      - desktop
+      - home
+
+parts:
+  zim:
+    plugin: make
+    source: https://github.com/zim-desktop-wiki/zim-desktop-wiki
+    source-type: git
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$(git describe --tags | sed 's/^v//')"    
+    
+    build-packages:
+      - python3
+      - python3-requests
+      - gir1.2-gtk-3.0
+      - python3-gi
+      - python3-xdg
+      - python3-pillow
+          
+    stage-packages:
+      - python3
+      - python3-requests
+      - gir1.2-gtk-3.0
+      - python3-gi
+      - python3-xdg
+      - python3-pillow
+
